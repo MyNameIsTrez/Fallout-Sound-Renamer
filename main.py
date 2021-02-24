@@ -6,6 +6,7 @@ inputStartFolder = ""
 outputStartFolder = ""
 
 filename = "temp.tsv"
+# filename = "data.tsv"
 
 
 tsvFile = open(filename)
