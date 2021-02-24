@@ -5,7 +5,6 @@ inputStartFolder = ""
 outputStartFolder = ""
 
 filename = "temp.tsv"
-# filename = "data.tsv"
 
 
 tsvFile = open(filename)
@@ -34,8 +33,10 @@ for row in tsvRead:
         outputName += " | " + response
 
     inputDirPath = os.path.dirname(inputFilePath)
+
+    extension = os.path.splitext(fullFileName)[1]
     
-    outputFilePath = inputDirPath + outputName
+    outputFilePath = inputDirPath + outputName + extension
 
     print("OLD PATH:", inputFilePath)
     print("NEW PATH:", outputFilePath)
