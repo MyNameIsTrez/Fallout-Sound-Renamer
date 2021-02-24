@@ -36,7 +36,7 @@ for row in tsvRead:
 
     extension = os.path.splitext(fullFileName)[1]
     
-    outputFilePath = inputDirPath + outputName + extension
+    outputFilePath = os.path.join(inputDirPath, outputName) + extension
 
     print("OLD PATH:", inputFilePath)
     print("NEW PATH:", outputFilePath)
