@@ -1,5 +1,4 @@
 import os, csv
-from pathlib import Path
 
 
 inputStartFolder = ""
@@ -17,9 +16,12 @@ next(tsvRead) # Skips the first line containing the header labels.
 
 for row in tsvRead:
     rawVoiceFilePath = row[12]
-    inputFilePath = inputStartFolder / Path(rawVoiceFilePath.replace("\\", os.path.sep).replace("sound/voice/fallout4.esm/", ""))
 
-    fileName = inputFilePath.stem
+    inputFilePath = inputStartFolder + rawVoiceFilePath.replace("\\", os.path.sep).replace("sound/voice/fallout4.esm/", "")
+    
+    fullFileName = os.path.basename(inputFilePath)
+    
+    fileName = os.path.splitext(fullFileName)[0]
 
     topicType = row[3]
     outputName = fileName + " | " + topicType
@@ -28,8 +30,9 @@ for row in tsvRead:
     if response != " ":
         outputName += " | " + response
 
-    inputDirPath = inputFilePath.parent
-    outputFilePath = inputDirPath / outputName
+    inputDirPath = os.path.dirname(inputFilePath)
+    
+    outputFilePath = inputDirPath + outputName
 
     print("OLD PATH:", inputFilePath)
     print("NEW PATH:", outputFilePath)
