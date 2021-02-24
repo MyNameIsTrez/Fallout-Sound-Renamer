@@ -18,6 +18,9 @@ for row in tsvRead:
     rawVoiceFilePath = row[12]
 
     inputFilePath = inputStartFolder + rawVoiceFilePath.replace("\\", os.path.sep).replace("sound/voice/fallout4.esm/", "")
+
+    if (inputFilePath == ""):
+        continue # Skips this line.
     
     fullFileName = os.path.basename(inputFilePath)
     
