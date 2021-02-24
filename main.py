@@ -1,34 +1,37 @@
-import os
-import pandas as pd
+import os, csv
 from pathlib import Path
 
+
+inputStartFolder = ""
+outputStartFolder = ""
 
 filename = "temp.tsv"
 
 
-i = 0
-for chunk in pd.read_table(filename, chunksize=1): # chunksize=1 means reading one line at a time to save on memory.
-    voiceFile = chunk["Voice File"][i]
+tsvFile = open(filename)
+tsvRead = csv.reader(tsvFile, delimiter="\t")
 
-    if pd.notnull(voiceFile): # Don't parse rows without a Voice File value.
-        oldFilePath = Path(voiceFile.replace("\\", os.path.sep))
-        topicType = chunk["Topic Type"][i]
-        response = chunk["Response"][i]
+next(tsvRead) # Skips the first line containing the header labels.
 
-        fileName = oldFilePath.stem
 
-        newName = fileName + " | " + topicType
+for row in tsvRead:
+    rawVoiceFilePath = row[12]
+    inputFilePath = inputStartFolder / Path(rawVoiceFilePath.replace("\\", os.path.sep).replace("sound/voice/fallout4.esm/", ""))
 
-        if response != " ":
-            newName += " | " + response
+    fileName = inputFilePath.stem
 
-        # print(repr(newName))
+    topicType = row[3]
+    outputName = fileName + " | " + topicType
 
-        oldDirPath = oldFilePath.parent
-        newFilePath = oldDirPath / newName
-        print("OLD PATH:", oldFilePath)
-        print("NEW PATH:", newFilePath)
-        print("---------")
-        # os.rename(oldFilePath, newFilePath)
-    
-    i += 1 # TODO: Find a cleaner way to track which row is being read.
+    response = row[10]
+    if response != " ":
+        outputName += " | " + response
+
+    inputDirPath = inputFilePath.parent
+    outputFilePath = inputDirPath / outputName
+
+    print("OLD PATH:", inputFilePath)
+    print("NEW PATH:", outputFilePath)
+    print("---------")
+
+    # os.rename(inputFilePath, outputFilePath)
