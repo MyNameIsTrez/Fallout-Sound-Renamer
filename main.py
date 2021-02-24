@@ -17,7 +17,7 @@ next(tsvRead) # Skips the first line containing the header labels.
 for row in tsvRead:
     rawVoiceFilePath = row[12]
 
-    inputFilePath = inputStartFolder + rawVoiceFilePath.replace("\\", os.path.sep).replace("sound/voice/fallout4.esm/", "")
+    inputFilePath = inputStartFolder + rawVoiceFilePath.replace("\\", os.sep).replace("sound" + os.sep + "voice" + os.sep + "fallout4.esm" + os.sep, "")
 
     if (inputFilePath == ""):
         continue # Skips this line.
